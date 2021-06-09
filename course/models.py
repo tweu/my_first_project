@@ -1,14 +1,15 @@
-from typing import Tuple
+
 from django.db import models
-from django.db.models.expressions import F
-from django.db.models.fields import CharField
+from django.db.models import manager
+from django.db.models.manager import Manager
+
 
 # Create your models here.
 
 class Branch(models.Model):
     class Meta:
-        verbose_name = 'branch'
-        verbose_name_plural = 'branches'
+        verbose_name = 'Филиал'
+        verbose_name_plural = 'Филиалы'
 
 
     name = models.CharField(max_length=100, null = False)
@@ -18,12 +19,10 @@ class Branch(models.Model):
     def __str__(self):
         return self.name
 
-
-
 class Group(models.Model):
     class Meta:
-        verbose_name = 'group'
-        verbose_name_plural = 'groups'
+        verbose_name = 'Группа'
+        verbose_name_plural = 'Группы'
     
 
     name = models.CharField(max_length=100, null = False)
@@ -45,8 +44,8 @@ class Student(models.Model):
     )
     
     class Meta:
-        verbose_name = 'student'
-        verbose_name_plural = 'students'
+        verbose_name = 'Студент'
+        verbose_name_plural = 'Студенты'
 
 
     name = models.CharField(max_length=200)
@@ -54,7 +53,29 @@ class Student(models.Model):
     address = models.CharField(max_length=300, null = True, blank=True) 
     phone_number = models.CharField(max_length=20)
     gender = models.CharField(choices=GENDER_CHOICES, max_length=7, default=MALE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True)
 
 
     def __str__(self):
         return self.name
+
+
+
+class Worker(models.Model):
+    ANAS = 'Anas'
+    KAIRAT = 'Kairat'
+    
+    MANAGERS = (
+        (ANAS, 'Anas'),
+        (KAIRAT, 'Kairat')
+    )
+
+    class Meta:
+        verbose_name = 'Рабочий'
+        verbose_name_plural = 'Рабочие'
+
+
+    name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100, null=True, blank=True)
+    address = models.CharField(max_length=300, null=True, blank=True)
+    managers = models.CharField(choices=MANAGERS, max_length=8)
