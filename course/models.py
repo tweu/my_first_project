@@ -28,7 +28,6 @@ class Group(models.Model):
     name = models.CharField(max_length=100, null = False)
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
 
-
     def __str__(self):
         return self.name
 
