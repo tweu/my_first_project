@@ -1,21 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'course/base.html' %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width, initial-scale=1.0">
-  <title>Document</title>
-  <style>
-    table,
-    th,
-    td {
-      border: 1px solid black;
-    }
-  </style>
-</head>
-
-<body>
+{% block content %}
+    <h1 style="text-align: center;"> Группы </h1>
+    <h1>Создать новую группу</h1>
+    <a href = "{% url 'groups_create' %}" class = 'btn btn-primary'>Create/Создать</a>
   <table style="width:100%">
     <tr>
       <th>Name</th>
@@ -30,9 +18,5 @@
       <td><a href="{% url 'group_details' group.id %}">подробнее</a></td>
     </tr>
     {% endfor %}
-  </table>
-  <img src="https://mobile-review.com/articles/2020/image/skillfactory-python/3.jpg" alt="">
-  
-</body>
-
-</html>
+    </table>
+{% endblock %}

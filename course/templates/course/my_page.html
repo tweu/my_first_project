@@ -1,19 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TestFile</title>
-</head>
-<body>
-    <h1>Hello World</h1>
-    <h2>Hello World again</h2>
-    <p>My Django Project</p>
-    <h1>{{ name }}</h1>
-    <p>{{my_list}}</p>
-    {% for chislo in my_list %}
-        <center>{{chislo}}</center>
-    {% endfor %}
-</body>
-</html>
+{% extends 'course/base.html' %}
+
+{% block content %}
+   <h1>Welcome</h1>
+    <h2>Choose one of these buttons</h2>
+
+<a href = '{% url "branches_list" %}' class = 'btn btn-success'>Branches</a>
+<a href = '{% url "groups_list" %}' class = 'btn btn-success'>Groups</a>
+<a href = '{% url "students_list" %}' class = 'btn btn-success'>Students</a>
+
+{% endblock %}
