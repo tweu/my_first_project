@@ -2,8 +2,10 @@
 
 {% block content %}
     <h1 style="text-align: center;"> Группы </h1>
+    {% if user.is_authenticated %}
     <h1>Создать новую группу</h1>
     <a href = "{% url 'groups_create' %}" class = 'btn btn-primary'>Create/Создать</a>
+    {% endif %}
   <table style="width:100%">
     <tr>
       <th>Name</th>
@@ -15,8 +17,11 @@
     <tr>
       <td>{{ group.name }}</td>
       <td>{{ group.branch }}</td>
-      <td><a href="{% url 'group_details' group.id %}">подробнее</a></td>
+      <td><a href="{% url 'group_details' group.id %}">Подробнее</a></td>
+      {% if user.is_authenticated %}
+      <td><a href="{% url 'group_delete' group.id %}">Удалить</a></td>
+      {% endif %}
     </tr>
     {% endfor %}
     </table>
-{% endblock %}
+{% endblock %}  

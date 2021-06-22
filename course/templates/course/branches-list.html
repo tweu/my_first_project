@@ -3,7 +3,9 @@
 {% block content %}
     <h1 style="text-align: center;"> Филиалы</h1>
     <h1>Создать новый филиал</h1>
+    {% if user.is_authenticated %}
     <a href = "{% url 'branches_create'%}" class = 'btn btn-primary'>Create/Создать</a>
+    {% endif %}
     <table class="table table-bordered">
         <thead>
           <tr>
@@ -11,6 +13,7 @@
             <th scope="col">Название</th>
             <th scope="col">Адрес</th>
             <th scope="col">Действие</th>
+            <th scope="col">Фото</th>
           </tr>
         </thead>
         <tbody>
@@ -19,8 +22,13 @@
             <th scope="row">{{ branch.id }}</th>
             <td>{{branch.name}}</td>
             <td>{{branch.address}}</td>
+            <td>{{branch.photo}}</td>
+            
             <td>
                 <a href="{% url 'branch_details' branch.id %}" class = 'btn-primary btn-sm'>Подробнее</a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'branch_delete' branch.id %}" class = 'btn-primary btn-sm'>Удалить</a>
+                {% endif %}
             </td>
           </tr>
         {% endfor %}
