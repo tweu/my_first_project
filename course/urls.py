@@ -1,6 +1,8 @@
+from course.serializers import GroupSerializer
+from course.models import Branch, Course
 from django.db.models import base
 from django.urls import path
-from .views import BranchCreateView, BranchDeleteView, BranchDetailView, BranchListView, BranchUpdateView, GroupCreateNew, GroupDeleteView, GroupDetailView, GroupListView, GroupUpdateNew, StudentCreateNew, StudentDeleteView, StudentDetailView, StudentListView, StudentUpdateView, branch_delete, branch_details, branch_edit, branches_create, branches_list, group_delete, group_details, group_edit, group_list, groups_create, my_main_page, student_delete, student_details, student_edit, student_list, students_create
+from .views import BranchAPIView, BranchCreateView, BranchDeleteView, BranchDetailView, BranchListView, BranchUpdateView, CourseCreateView, CourseDeleteView, CourseDetailView, CourseListView, CourseUpdateView, GroupAPIView, GroupCreateNew, GroupDeleteView, GroupDetailView, GroupListView, GroupUpdateNew, StudentAPIView, StudentCreateNew, StudentDeleteView, StudentDetailView, StudentListView, StudentUpdateView, branch_delete, branch_details, branch_edit, branch_random, branches_create, branches_list, course_random, group_delete, group_details, group_edit, group_list, group_random, groups_create, my_main_page, student_delete, student_details, student_edit, student_list, student_random, students_create
 
 urlpatterns=[
     path('', my_main_page, name = 'my_main_page'),
@@ -9,7 +11,7 @@ urlpatterns=[
     path('branches/<int:branch_id>/', BranchDetailView.as_view()    , name = 'branch_details'),
     path('branches/<int:branch_id>/edit', BranchUpdateView.as_view(), name='branch_edit'),
     path('branches/<int:branch_id>/delete', BranchDeleteView.as_view(), name='branch_delete'),
-
+    path("branches/random/", branch_random, name="branch_random"),
 
 
 
@@ -19,6 +21,8 @@ urlpatterns=[
     path('groups/<int:group_id>/', GroupDetailView.as_view(), name ='group_details'),
     path('groups/<int:group_id>/edit', GroupUpdateNew.as_view(), name ='group_edit'),
     path('groups/<int:group_id>/delete', GroupDeleteView.as_view(), name ='group_delete'),
+    path("groups/random/", group_random, name="group_random"),
+
 
 
 
@@ -29,4 +33,22 @@ urlpatterns=[
     path('students/create', StudentCreateNew.as_view(), name = 'students_create'),
     path('student/<int:student_id>/edit', StudentUpdateView.as_view(), name='student_edit'),
     path('student/<int:student_id>/delete', StudentDeleteView.as_view(), name='student_delete'),
+    path("students/random/", student_random, name="student_random"),
+
+
+
+    path('api/branches/', BranchAPIView.as_view(), name = 'api_branches'),
+    path('api/groups/', GroupAPIView.as_view(), name = 'api_groups'),
+    path('api/students/', StudentAPIView.as_view(), name = 'api_students'),
+    path('kk/<int:pk>/', BranchAPIView.as_view()),
+
+
+
+
+    path('course/', CourseListView.as_view(), name='course_list'),
+    path('course/<int:course_id>/', CourseDetailView.as_view(), name='course_details'),
+    path('course/create/', CourseCreateView.as_view(), name = 'course_create'),
+    path('course/<int:course_id>/edit', CourseUpdateView.as_view(), name='course_edit'),
+    path('course/<int:course_id>/delete', CourseDeleteView.as_view(), name='course_delete'),
+    path("course/random/", course_random, name="course_random"),
 ]

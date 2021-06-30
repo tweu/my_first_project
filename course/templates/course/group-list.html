@@ -5,10 +5,11 @@
     {% if user.is_authenticated %}
     <h1>Создать новую группу</h1>
     <a href = "{% url 'groups_create' %}" class = 'btn btn-primary'>Create/Создать</a>
+    <a href="{% url 'group_random' %}" class="btn btn-primary">Выбрать рандомную группу</a>
     {% endif %}
   <table style="width:100%">
     <tr>
-      <th>Name</th>
+      <th>Name</th>          
       <th>Branch</th>
       <th>group</th>
     </tr>

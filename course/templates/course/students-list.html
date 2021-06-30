@@ -5,6 +5,7 @@
     {% if user.is_authenticated %}
     <h1>Создать нового студента</h1>
     <a href = "{% url 'students_create' %}" class = 'btn btn-primary'>Create/Создать</a>
+    <a href="{% url 'student_random' %}" class="btn btn-primary">Выбрать рандомного студента</a>
     {% endif %}
     <table class="table table-bordered">
         <thead>

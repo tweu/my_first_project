@@ -25,9 +25,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('course/', include('course.urls')),
     path('', my_main_page, name = 'main_page'),
-    path('course/students', student_list, name = 'students_list'),
-    path('course/branches', branches_list, name = 'branches_list'),
-    path('course/groups', group_list, name = 'group_list'),
     path('user/', include('django.contrib.auth.urls')),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

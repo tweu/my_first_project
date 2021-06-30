@@ -1,0 +1,15 @@
+
+{% extends 'course/base.html' %}
+
+{% block content %}
+    <p>Название:     {{course.name}}</p>
+
+    
+    {% if user.is_authenticated %}
+    <a href = "{% url 'course_edit' course.id %}" class = 'btn btn-primary'>Change/Изменить</a>
+    {% endif %}
+
+
+
+{% endblock %}
+

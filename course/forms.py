@@ -1,7 +1,7 @@
 
 from django import forms
 from django.forms import fields
-from course.models import Branch, Group, Student
+from course.models import Branch, Group, Student, Course
 
 
 class BranchForm(forms.ModelForm):
@@ -18,3 +18,9 @@ class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
         fields = ('name', 'address', 'phone_number', 'gender', 'group', 'date_of_birth', 'photo')
+
+
+class CourseForm(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields = ('name', )

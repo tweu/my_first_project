@@ -1,6 +1,8 @@
 
 from django.db import models
 from django.db.models import manager
+from django.db.models.deletion import CASCADE, PROTECT
+from django.db.models.fields import CharField
 from django.db.models.manager import Manager
 from django.urls import reverse
 from django.conf import settings
@@ -18,6 +20,7 @@ class Branch(models.Model):
     name = models.CharField(max_length=100, null = False)
     address = models.CharField(max_length=300, null = True)
     photo = models.ImageField(upload_to='branches/', null=True, blank=True)
+    manager = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null = True, related_name = 'branches')
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null = True)
 
 
@@ -37,6 +40,7 @@ class Group(models.Model):
     name = models.CharField(max_length=100, null = False)
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to='groups/', null=True, blank=True)
+    course = models.ForeignKey('course.Course', on_delete=models.PROTECT, null=True)
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null = True)
 
     def __str__(self):
@@ -45,6 +49,22 @@ class Group(models.Model):
     
     def get_absolute_url(self):
         return reverse('group_details', kwargs ={'group_id': self.pk})
+
+class Course(models.Model):
+    name = CharField(max_length=100)
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null = True)
+
+    class Meta:
+        verbose_name ='курс'
+        verbose_name_plural = 'курсы'
+
+    def __str__(self):
+        return self.name
+
+    
+    def get_absolute_url(self):
+        return reverse('course_details', kwargs ={'course_id': self.pk})
+
 
 class Student(models.Model):
 
@@ -69,6 +89,8 @@ class Student(models.Model):
     gender = models.CharField(choices=GENDER_CHOICES, max_length=7, default=MALE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True)
     photo = models.ImageField(upload_to='students/', null=True, blank=True)
+    courses = models.ManyToManyField(Course)
+    age = models.PositiveIntegerField(null=True)
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null = True)
 
 
