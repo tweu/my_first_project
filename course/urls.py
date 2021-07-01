@@ -1,8 +1,10 @@
-from course.serializers import GroupSerializer
+
 from course.models import Branch, Course
 from django.db.models import base
 from django.urls import path
-from .views import BranchAPIView, BranchCreateView, BranchDeleteView, BranchDetailView, BranchListView, BranchUpdateView, CourseCreateView, CourseDeleteView, CourseDetailView, CourseListView, CourseUpdateView, GroupAPIView, GroupCreateNew, GroupDeleteView, GroupDetailView, GroupListView, GroupUpdateNew, StudentAPIView, StudentCreateNew, StudentDeleteView, StudentDetailView, StudentListView, StudentUpdateView, branch_delete, branch_details, branch_edit, branch_random, branches_create, branches_list, course_random, group_delete, group_details, group_edit, group_list, group_random, groups_create, my_main_page, student_delete, student_details, student_edit, student_list, student_random, students_create
+from .views import BranchCreateView, BranchDeleteView, BranchDetailView, BranchListView, BranchUpdateView, CourseCreateView, CourseDeleteView, CourseDetailView, CourseListView, CourseUpdateView, GroupCreateNew, GroupDeleteView, GroupDetailView, GroupListView, GroupUpdateNew, StudentCreateNew, StudentDeleteView, StudentDetailView, StudentListView, StudentUpdateView, branch_delete, branch_details, branch_edit, branch_random, branches_list, course_random, group_delete, group_details, group_edit, group_list, group_random, groups_create, my_main_page, student_delete, student_details, student_edit, student_list, student_random, students_create
+from django.urls import path, include
+
 
 urlpatterns=[
     path('', my_main_page, name = 'my_main_page'),
@@ -36,11 +38,7 @@ urlpatterns=[
     path("students/random/", student_random, name="student_random"),
 
 
-
-    path('api/branches/', BranchAPIView.as_view(), name = 'api_branches'),
-    path('api/groups/', GroupAPIView.as_view(), name = 'api_groups'),
-    path('api/students/', StudentAPIView.as_view(), name = 'api_students'),
-    path('kk/<int:pk>/', BranchAPIView.as_view()),
+    path('api/', include('course.api.urls')),
 
 
 

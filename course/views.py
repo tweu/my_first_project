@@ -1,5 +1,5 @@
 from rest_framework.response import Response
-from course.serializers import BranchSerializer, GroupSerializer, StudentSerializer
+
 from django.http.response import HttpResponseRedirect
 from django.urls.base import reverse_lazy
 from rest_framework import serializers
@@ -68,6 +68,9 @@ def my_main_page(request):
 
 
 
+
+
+
 def branches_list(request):
     branches = Branch.objects.all()
     my_context = {'branches': branches}
@@ -91,23 +94,23 @@ class BranchDetailView(DetailView):
     context_object_name = 'branch'
     pk_url_kwarg = 'branch_id'
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['groups'] = Group.objects.filter(branch = self.object)
-        return context
+            context = super().get_context_data(**kwargs)
+            context['groups'] = Group.objects.filter(branch = self.object)
+            return context
 
-@login_required
-def branches_create(request):
-    if request.method == "POST":
-        form = BranchForm(request.POST, request.FILES)
-        if form.is_valid():
-            branch = form.save(commit=False)
-            branch.creator = request.user
-            branch.save()
-            return redirect('branch_details', branch_id=branch.id)
-    else:
-        form = BranchForm()
+    @login_required
+    def branches_create(request):
+        if request.method == "POST":
+            form = BranchForm(request.POST, request.FILES)
+            if form.is_valid():
+                branch = form.save(commit=False)
+                branch.creator = request.user
+                branch.save()
+                return redirect('branch_details', branch_id=branch.id)
+        else:
+            form = BranchForm()
 
-    return render(request, 'course/branches_create.html', {'form': form})
+        return render(request, 'course/branches_create.html', {'form': form})
 
 class BranchCreateView(LoginRequiredMixin,CreateView):
     model = Branch
@@ -163,9 +166,6 @@ def branch_random(request):
     random_branch = random.choice(branches)
     my_context = {'branch': random_branch}
     return render(request, 'course/branch_detail.html', context=my_context)
-
-
-
 
 
 
@@ -518,33 +518,3 @@ def course_random(request):
 
 
 
-class BranchAPIView(APIView):
-    
-    def get(self, request, format = None):
-        branches = Branch.objects.all()
-        serializer = BranchSerializer(branches, many = True)
-        return Response(serializer.data, status = status.HTTP_200_OK)
-    
-    
-    def post(self, request):
-        # Create an article from the above data
-        serializer = BranchSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            branch_saved = serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
-class GroupAPIView(APIView):
-    
-    def get(self, request, format = None):
-        groups = Group.objects.all()
-        serializer = GroupSerializer(groups, many = True)
-        return Response(serializer.data, status = status.HTTP_200_OK)
-
-
-class StudentAPIView(APIView):
-    
-    def get(self, request, format = None):
-        students = Student.objects.all()
-        serializer = StudentSerializer(students, many = True)
-        return Response(serializer.data, status = status.HTTP_200_OK)
