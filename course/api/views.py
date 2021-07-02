@@ -1,10 +1,17 @@
 from django.http.response import Http404
 from rest_framework.views import APIView
-from course.models import Branch, Group, Student
-from course.api.serializers import BranchModelSerializer, GroupModelSerializer, StudentModelSerilizer
+from course.models import Branch, Course, Group, Student
+from course.api.serializers import BranchModelSerializer, CourseModelSerializer, GroupModelSerializer, StudentModelSerilizer
 from rest_framework import serializers, status
 from rest_framework.response import Response
-from rest_framework import generics, mixins
+from rest_framework import generics, mixins, viewsets
+
+
+
+class BranchViewSet(viewsets.ModelViewSet):
+    queryset = Branch.objects.all()
+    serializer_class = BranchModelSerializer
+
 
 # class BranchListView(mixins.CreateModelMixin,
 #                      mixins.ListModelMixin,
@@ -40,28 +47,36 @@ from rest_framework import generics, mixins
 
 
 
-class BranchListView(generics.ListCreateAPIView):
-    queryset = Branch.objects.all()
-    serializer_class = BranchModelSerializer
+# class BranchListView(generics.ListCreateAPIView):
+#     queryset = Branch.objects.all()
+#     serializer_class = BranchModelSerializer
 
 
-class BranchDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Branch.objects.all()
-    serializer_class = BranchModelSerializer
-
-
-
+# class BranchDetailView(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Branch.objects.all()
+#     serializer_class = BranchModelSerializer
 
 
 
-class GroupListView(generics.ListCreateAPIView):
+
+
+
+
+
+class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupModelSerializer
 
 
-class GroupDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Group.objects.all()
-    serializer_class = GroupModelSerializer
+
+# class GroupListView(generics.ListCreateAPIView):
+#     queryset = Group.objects.all()
+#     serializer_class = GroupModelSerializer
+
+
+# class GroupDetailView(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Group.objects.all()
+#     serializer_class = GroupModelSerializer
 
 
 
@@ -139,14 +154,23 @@ class GroupDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 
-class StudentListView(generics.ListCreateAPIView):
+
+class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentModelSerilizer
 
 
-class StudentDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Student.objects.all()
-    serializer_class = StudentModelSerilizer
+
+
+
+# class StudentListView(generics.ListCreateAPIView):
+#     queryset = Student.objects.all()
+#     serializer_class = StudentModelSerilizer
+
+
+# class StudentDetailView(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Student.objects.all()
+#     serializer_class = StudentModelSerilizer
 
 
 
@@ -228,3 +252,9 @@ class StudentDetailView(generics.RetrieveUpdateDestroyAPIView):
 #         student = self.get_object(pk)
 #         student.delete()
 #         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class CourseViewSet(viewsets.ModelViewSet):
+    queryset = Course.objects.all()
+    serializer_class = CourseModelSerializer
+
