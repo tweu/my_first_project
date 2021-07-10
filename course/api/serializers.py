@@ -1,4 +1,5 @@
 
+from django.db.models import query
 from django.db.models.query import QuerySet
 from course.models import Branch, Course, Group, Student
 from django.http import request
@@ -9,7 +10,8 @@ class BranchModelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Branch
-        fields = ('id', 'name', 'address', 'photo', 'creator',)
+        fields = '__all__'
+        read_only_fields = ('creator', )
 
 
 class GroupModelSerializer(serializers.ModelSerializer):
@@ -17,6 +19,7 @@ class GroupModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
         fields = '__all__'
+        read_only_fields = ('creator', )
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -27,15 +30,18 @@ class GroupModelSerializer(serializers.ModelSerializer):
 
 
 class StudentModelSerilizer(serializers.ModelSerializer):
+    courses = serializers.PrimaryKeyRelatedField(queryset = Course.objects.all(), many = True)
 
     class Meta:
         model = Student
         fields = '__all__'
+        read_only_fields = ('creator', )
 
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
-        data['group'] = GroupModelSerializer(instance.group).data
+        # data['group'] = GroupModelSerializer(instance.group).data
+        data['courses'] = CourseModelSerializer(instance.courses).data
         return data
 
 

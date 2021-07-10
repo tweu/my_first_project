@@ -4,13 +4,26 @@ from course.models import Branch, Course, Group, Student
 from course.api.serializers import BranchModelSerializer, CourseModelSerializer, GroupModelSerializer, StudentModelSerilizer
 from rest_framework import serializers, status
 from rest_framework.response import Response
-from rest_framework import generics, mixins, viewsets
+from rest_framework import generics, mixins, viewsets, filters
+from  rest_framework.permissions import IsAuthenticated
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 
 class BranchViewSet(viewsets.ModelViewSet):
     queryset = Branch.objects.all()
     serializer_class = BranchModelSerializer
+    # permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(creator = self.request.user)
+
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter, DjangoFilterBackend]
+    search_fields = ['name', 'address']
+    ordering_fields = ['name', 'address']
+    ordering = ['-name']
+    filterset_fields = ['name', 'address']
+
 
 
 # class BranchListView(mixins.CreateModelMixin,
@@ -66,6 +79,18 @@ class BranchViewSet(viewsets.ModelViewSet):
 class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupModelSerializer
+    # permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(creator = self.request.user)
+
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter, DjangoFilterBackend]
+    search_fields = ['name', 'branch']
+    ordering_fields = ['name', 'branch']
+    ordering = ['-name']
+    filterset_fields = ['name', 'branch']
+
+
 
 
 
@@ -158,6 +183,18 @@ class GroupViewSet(viewsets.ModelViewSet):
 class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentModelSerilizer
+    # permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(creator = self.request.user)
+
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter, DjangoFilterBackend]
+    search_fields = ['name', 'address', 'phone_number']
+    ordering_fields = ['name', 'phone_number', 'address']
+    ordering = ['-name']
+    filterset_fields = ['name', 'address', 'phone_number']
+
+
 
 
 
@@ -257,4 +294,11 @@ class StudentViewSet(viewsets.ModelViewSet):
 class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseModelSerializer
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter, DjangoFilterBackend]
+    search_fields = ['name']
+    ordering_fields = ['name']
+    ordering = ['-name']
+    filterset_fields = ['name']
+
+
 
